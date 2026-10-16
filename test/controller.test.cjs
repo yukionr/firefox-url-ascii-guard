@@ -22,7 +22,7 @@ function setup() {
     removeAttribute: name => attrs.delete(name),
   };
   const tabs = events();
-  const browser = { userTypedValue: null, currentURI: { spec: 'https://example.test/記事' } };
+  const browser = { userTypedValue: null, currentURI: { spec: 'https://例え.test/記事' } };
   const gb = { selectedBrowser: browser, tabContainer: tabs,
     addTabsProgressListener: fn => { gb.progress = fn; },
     removeTabsProgressListener: () => { gb.progress = null; } };
@@ -57,7 +57,7 @@ test('navigation, tab switching, Escape and cleanup restore correct state', asyn
   input.emit('keyup');
   await Promise.resolve();
   assert.equal(attrs.size, 1);
-  browser.currentURI.spec = 'https://example.test/';
+  browser.currentURI.spec = 'https://example.test/記事?q=日本語#見出し';
   gb.progress.onLocationChange(browser);
   await Promise.resolve();
   assert.equal(attrs.size, 0);

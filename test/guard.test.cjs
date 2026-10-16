@@ -10,10 +10,8 @@ test('ASCII letters, digits and RFC 3986 punctuation are allowed', () => {
   ]) assert.equal(inspectUrl(url).warning, false, url);
 });
 
-test('non-ASCII characters anywhere in the URL trigger a warning', () => {
+test('non-ASCII characters in the hostname trigger a warning', () => {
   for (const url of ['https://еxample.test/', 'https://例え.test/', 'https://日本語.test/',
-    'https://example.test/記事', 'https://example.test/?q=é',
-    'https://example.test/#а', 'https://example.test/\u200b',
     'https://ｅxample.test/']) {
     assert.equal(inspectUrl(url).warning, true, url);
   }
@@ -27,16 +25,27 @@ test('serialized IDNs are detected without visiting or decoding the host', () =>
   assert.equal(inspectUrl('https://example.test/xn--test').warning, false);
 });
 
-test('percent-encoded Unicode and malformed high bytes are detected', () => {
-  for (const suffix of ['%E6%97%A5', '%c3%a9', '%D0%B0', '%E2%80%AE', '%FF', '%80']) {
-    assert.equal(inspectUrl(`https://example.test/${suffix}`).warning, true, suffix);
+test('paths, queries, fragments and credentials do not trigger a warning', () => {
+  for (const url of ['https://example.test/記事', 'https://example.test/?q=é',
+    'https://example.test/#а', 'https://example.test/\u200b',
+    'https://ユーザー:秘密@example.test:8443/記事?q=日本語#見出し',
+    'https://example.test/a b', 'https://example.test/\n',
+    'file:///tmp/日本語.txt', 'https://[::1]:8000/記事']) {
+    assert.equal(inspectUrl(url).warning, false, url);
   }
+});
+
+test('percent-encoded non-ASCII bytes are checked only in the hostname', () => {
+  for (const suffix of ['%E6%97%A5', '%c3%a9', '%D0%B0', '%E2%80%AE', '%FF', '%80']) {
+    assert.equal(inspectUrl(`https://example.test/${suffix}`).warning, false, suffix);
+    assert.equal(inspectUrl(`https://example.test/?q=${suffix}#${suffix}`).warning, false, suffix);
+    assert.equal(inspectUrl(`ftps://${suffix}.test/`).warning, true, suffix);
+  }
+  assert.equal(inspectUrl('https://%E6%97%A5.test/').warning, true);
   assert.equal(inspectUrl('https://example.test/%25E6%2597%25A5').warning, false);
 });
 
-test('disallowed ASCII and unavailable URLs have distinct states', () => {
-  assert.equal(inspectUrl('https://example.test/a b').warning, true);
-  assert.equal(inspectUrl('https://example.test/\n').warning, true);
+test('unavailable URLs have a distinct state', () => {
   for (const value of [undefined, '']) {
     assert.equal(inspectUrl(value).status, 'unavailable');
   }
@@ -51,6 +60,7 @@ test('only explicit supported protocols are inspected; search text and internal 
     assert.equal(result.status, 'ignored', value);
   }
   for (const scheme of ['http', 'https', 'ftp', 'ftps', 'sftp', 'file', 'ws', 'wss', 'HTTPS']) {
-    assert.equal(inspectUrl(`${scheme}://example.test/日本語`).warning, true, scheme);
+    assert.equal(inspectUrl(`${scheme}://例え.test/`).warning, true, scheme);
+    assert.equal(inspectUrl(`${scheme}://example.test/日本語`).warning, false, scheme);
   }
 });

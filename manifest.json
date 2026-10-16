@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "URL ASCII Guard",
   "version": "0.2.0",
-  "description": "英数字とURL用記号以外の文字、国際化ドメインを検出し、URLバーを赤くします。",
+  "description": "URLのドメイン部分にある非ASCII文字や国際化ドメインを検出し、URLバーを赤くします。",
   "browser_specific_settings": {
     "gecko": {
       "id": "url-ascii-guard@local.invalid",

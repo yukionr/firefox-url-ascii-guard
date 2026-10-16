@@ -20,14 +20,20 @@
       return { warning: false, status: 'unavailable' };
     }
     const reasons = [];
-    // Test the original string before URL parsing can normalize characters away.
-    if (forbidden.test(value)) reasons.push('英数字・URL用記号以外の文字');
+    // Keep the original host spelling: URL parsing normalizes some Unicode to ASCII.
+    // Special schemes also treat backslashes as authority/path separators.
+    const source = /^(?:https?|ftp|file|wss?):/i.test(value)
+      ? value.replace(/\\/g, '/') : value;
+    const authority = source.match(/^[^:]+:\/*([^/?#]*)/)[1];
+    const host = url.hostname ? authority.slice(authority.lastIndexOf('@') + 1)
+      .replace(/:\d*$/, '') : '';
+    if (forbidden.test(host)) reasons.push('英数字・URL用記号以外の文字');
     // Firefox may expose internationalized hosts in their ASCII representation.
     if (url.hostname.split('.').some(label => /^xn--/i.test(label))) {
       reasons.push('国際化ドメイン（xn--）');
     }
     // Byte-level detection also handles malformed UTF-8 without decoding errors.
-    if (encodedNonAscii.test(value)) reasons.push('符号化された非ASCII文字');
+    if (encodedNonAscii.test(host)) reasons.push('符号化された非ASCII文字');
     return { warning: reasons.length > 0, status: reasons.length ? 'warning' : 'ascii', reasons };
   }
 
