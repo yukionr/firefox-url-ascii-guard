@@ -1,0 +1,15 @@
+[
+  {
+    "namespace": "urlbarGuard",
+    "functions": [{ "name": "start", "type": "function", "async": true, "parameters": [] }],
+    "events": [{
+      "name": "onStateChanged", "type": "function",
+      "parameters": [{ "name": "state", "type": "object", "properties": {
+        "windowId": { "type": "integer" },
+        "warning": { "type": "boolean" },
+        "status": { "type": "string" },
+        "reasons": { "type": "array", "items": { "type": "string" } }
+      } }]
+    }]
+  }
+]

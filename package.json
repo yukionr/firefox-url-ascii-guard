@@ -1,0 +1,9 @@
+{
+  "name": "url-ascii-guard",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "build": "python3 tools/package.py"
+  }
+}

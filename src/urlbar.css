@@ -1,0 +1,16 @@
+/* Scope every declaration to the marked URL bar; never change the theme. */
+#urlbar[data-url-ascii-guard-warning] > :is(.urlbar-background, #urlbar-background) {
+  background-color: #b3261e !important;
+  border-color: #ffb4ab !important;
+}
+
+#urlbar[data-url-ascii-guard-warning] > :is(.urlbar-input-container, #urlbar-input-container),
+#urlbar[data-url-ascii-guard-warning] #urlbar-input,
+#urlbar[data-url-ascii-guard-warning] .urlbar-input {
+  color: #fff !important;
+}
+
+#urlbar[data-url-ascii-guard-warning] #urlbar-input::selection {
+  color: #601410 !important;
+  background-color: #fff !important;
+}

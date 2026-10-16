@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "URL ASCII Guard",
+  "version": "0.2.0",
+  "description": "英数字とURL用記号以外の文字、国際化ドメインを検出し、URLバーを赤くします。",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "url-ascii-guard@local.invalid",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  },
+  "permissions": ["tabs"],
+  "experiment_apis": {
+    "urlbarGuard": {
+      "schema": "experiments/urlbar/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"], "paths": [["urlbarGuard"]],
+        "script": "experiments/urlbar/bundle.js"
+      }
+    }
+  },
+  "background": { "scripts": ["src/background.js"], "persistent": true },
+  "icons": { "48": "icons/guard.svg", "96": "icons/guard.svg" },
+  "browser_action": {
+    "default_icon": "icons/guard.svg",
+    "default_title": "URL ASCII Guard — URLを確認中"
+  }
+}
