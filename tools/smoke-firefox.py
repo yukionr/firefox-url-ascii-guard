@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--firefox', default='firefox-nightly',
                     help='Firefox executable name on PATH or path to its binary')
 args = parser.parse_args()
-xpi = root / 'dist' / f"url-ascii-guard-{manifest['version']}.xpi"
+xpi = root / 'dist' / f"firefox-url-ascii-guard-{manifest['version']}.xpi"
 addon_id = manifest['browser_specific_settings']['gecko']['id']
 
 with tempfile.TemporaryDirectory(prefix='url-ascii-guard-profile-') as profile:

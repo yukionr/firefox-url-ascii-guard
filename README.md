@@ -1,4 +1,4 @@
-# URL ASCII Guard
+# Firefox URL ASCII Guard
 
 明示的なプロトコル付き URL に英数字・URL 用記号以外の文字が含まれると、Firefox Nightly の URL バーだけを赤くする拡張です。入力中の検索キーワードは無視します。ツールバーボタンの `!` とツールチップでも検出状態を確認できます。
 
@@ -50,7 +50,7 @@ npm test
 npm run build
 ```
 
-ビルドは共通ロジックと実験 API を `experiments/urlbar/bundle.js` にまとめ、必要なファイルだけを `dist/url-ascii-guard-0.2.0.xpi` に格納します。生成された bundle を直接編集しないでください。
+ビルドは共通ロジックと実験 API を `experiments/urlbar/bundle.js` にまとめ、必要なファイルだけを `dist/firefox-url-ascii-guard-0.2.0.xpi` に格納します。生成された bundle を直接編集しないでください。
 
 一時的に試すには、実験 API を許可した Nightly の `about:debugging#/runtime/this-firefox` から「一時的なアドオンを読み込む」を選び、XPI を指定します。ビルド後ならこのフォルダーの `manifest.json` も使えます。一時読み込みは Firefox 終了時に解除されます。
 

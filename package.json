@@ -1,5 +1,5 @@
 {
-  "name": "url-ascii-guard",
+  "name": "firefox-url-ascii-guard",
   "version": "0.2.0",
   "private": true,
   "scripts": {
